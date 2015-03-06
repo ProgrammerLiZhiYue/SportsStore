@@ -1,4 +1,5 @@
 ﻿using SportsStore.Domain.Abstract;
+using SportsStore.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,9 @@ namespace SportsStore.WebUI.Controllers
     {
         private IProductRepository repository;
 
-        public AdminController(IProductRepository repo)
+		public object Product { get; private set; }
+
+		public AdminController(IProductRepository repo)
         {
             repository = repo;
         }
@@ -21,5 +24,11 @@ namespace SportsStore.WebUI.Controllers
         {
             return View(repository.Products);
         }
+
+		public ViewResult Edit(int productId)
+		{
+			Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
+			return View(product);
+		}
     }
 }
